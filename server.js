@@ -1,7 +1,11 @@
 const express = require('express');
 const path = require('path');
+const appInsights = require('applicationinsights');
 const app = express();
 const port = process.env.PORT || 3000;
+
+appInsights.setup('46a9690c-01a8-4f5b-94a9-8ec2e6bea7f9').start(); // Replace with your Instrumentation Key
+const client = appInsights.defaultClient;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -35,6 +39,7 @@ async function main(){
       const delta = choice.delta?.content;
       if (delta !== undefined) {
         console.log(`Chatbot: ${delta}`);
+        client.trackTrace({ message: `Chatbot: ${delta}` });
         await new Promise(r => setTimeout(r, 500));
       }
     }
