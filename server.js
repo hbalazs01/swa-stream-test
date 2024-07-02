@@ -1,11 +1,8 @@
 const express = require('express');
 const path = require('path');
-const appInsights = require('applicationinsights');
+const WebSocket = require('ws');
 const app = express();
-const port = process.env.PORT || 3000;
-
-appInsights.setup('46a9690c-01a8-4f5b-94a9-8ec2e6bea7f9').start(); // Replace with your Instrumentation Key
-const client = appInsights.defaultClient;
+const port = 3000;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -13,9 +10,34 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(port, () => {
+
+const server = app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}/`);
 });
+
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', (ws) => {
+    console.log('Client connected');
+
+    ws.on('message', (message) => {
+      console.log('received: %s', message);
+    });
+
+    ws.on('close', () => {
+      console.log('Client disconnected');
+    });
+});
+
+const broadcastLog = (message) => {
+    const logMessage = JSON.stringify({ timestamp: new Date(), message });
+
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(logMessage);
+      }
+    });
+  };
 
 const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
 
@@ -39,7 +61,7 @@ async function main(){
       const delta = choice.delta?.content;
       if (delta !== undefined) {
         console.log(`Chatbot: ${delta}`);
-        client.trackTrace({ message: `Chatbot: ${delta}` });
+        broadcastLog(`Chatbot: ${delta}`);
         await new Promise(r => setTimeout(r, 500));
       }
     }

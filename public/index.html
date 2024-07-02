@@ -7,5 +7,25 @@
 </head>
 <body>
     <h1>Welcome to My Node App!</h1>
+    <script>
+        const ws = new WebSocket('ws://localhost:3000');
+
+        ws.onopen = () => {
+          console.log('Connected to WebSocket server');
+        };
+
+        ws.onmessage = (event) => {
+          const log = JSON.parse(event.data);
+          console.log(`[${log.timestamp}] ${log.message}`);
+        };
+
+        ws.onclose = () => {
+          console.log('Disconnected from WebSocket server');
+        };
+
+        ws.onerror = (error) => {
+          console.error('WebSocket error:', error);
+        };
+    </script>
 </body>
 </html>
