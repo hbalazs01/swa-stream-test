@@ -8,24 +8,19 @@
 <body>
     <h1>Welcome to My Node App!</h1>
     <script>
-        const ws = new WebSocket('ws://mango-mushroom-0f557d803.5.azurestaticapps.net:3000');
+        const options = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'api-key': "5def1ac21f6f463391dc0eb62f9e9846",
+                'Accept': 'text/event-stream'
+            },
+            body: JSON.stringify({
+                "chat_input": "hi"
 
-        ws.onopen = () => {
-          console.log('Connected to WebSocket server');
-        };
-
-        ws.onmessage = (event) => {
-          const log = JSON.parse(event.data);
-          console.log(`[${log.timestamp}] ${log.message}`);
-        };
-
-        ws.onclose = () => {
-          console.log('Disconnected from WebSocket server');
-        };
-
-        ws.onerror = (error) => {
-          console.error('WebSocket error:', error);
-        };
+            }),
+          };
+        fetch('http://172.27.2.84:8010/proxy/score', options).then(resp => {console.log(resp)});
     </script>
 </body>
 </html>

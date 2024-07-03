@@ -1,21 +1,22 @@
 {
-  "name": "swa-stream-test",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "build": "echo 'Nothing to build' && exit 0"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@azure/identity": "^4.3.0",
-    "@azure/openai": "^1.0.0-beta.12",
-    "applicationinsights": "^3.2.0",
-    "express": "^4.19.2",
-    "ws": "^8.17.1"
-  }
+    "name": "swa-stream-test",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "lcp --proxyUrl http://localhost:12050/",
+        "build": "echo 'Nothing to build' && exit 0"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@azure/identity": "^4.3.0",
+        "@azure/openai": "^1.0.0-beta.12",
+        "applicationinsights": "^3.2.0",
+        "express": "^4.19.2",
+        "local-cors-proxy": "^1.1.0",
+        "ws": "^8.17.1"
+    }
 }
