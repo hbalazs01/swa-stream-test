@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "lcp --proxyUrl http://localhost:12050/",
+        "start": "lcp --proxyUrl https://localhost:12050/",
         "build": "echo 'Nothing to build' && exit 0"
     },
     "keywords": [],
